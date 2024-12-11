@@ -1,18 +1,19 @@
 import java.util.List;
 import java.util.UUID;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 public class Plataforma {
     private List<Usuario> usuarios;
     private List<Publicacao> publicacoes;
-    private List<Sessao> sessoes;
+    private Sessao sessao;
     private Integer proximoId;
 
     // Construtores
     public Plataforma() { 
         this.usuarios = new ArrayList<>();
         this.publicacoes = new ArrayList<>();
-        this.sessoes = new ArrayList<>();
+        this.sessao = null;
         this.proximoId = 1;
     }
 
@@ -25,13 +26,27 @@ public class Plataforma {
         return this.publicacoes;
     }
 
-    public List<Sessao> getSessoes() {
-        return this.sessoes;
+    public Sessao getSessao() {
+        return this.sessao;
+    }
+
+    public void setSessao(Sessao sessao) {
+        this.sessao = sessao;
     }
 
     // Métodos
     private String gerarToken() {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 5);
+    }
+
+    private void adicionarSessao(Usuario usuario, Integer id, String token) {
+        Sessao sessao = new Sessao(usuario, usuario.getId(), token);
+        this.setSessao(sessao);
+        usuario.setEstado("autenticado");
+    }
+
+    private Usuario usuarioCorrente() {
+        return this.getSessao().getUsuario();
     }
 
     public boolean registrar(String nome, String email, String senha) {
@@ -54,18 +69,17 @@ public class Plataforma {
     }
 
     public boolean login(String email, String senha) {
-        Usuario user = null;
+        Usuario u = null;
         for (Usuario usuario : usuarios) {
-            user = usuario.procuraUsuario(email, senha);
-            if (user != null) {
+            u = usuario.procuraUsuario(email, senha);
+            if (u != null) {
                 break;
             } 
         }
 
-        if (user != null) {
+        if (u != null) {
             String token = gerarToken();
-            Sessao sessao = new Sessao(user, user.getId(), token);
-            this.sessoes.add(sessao);
+            adicionarSessao(u, u.getId(), token);
             System.out.println("Login bem-sucedido para: " + email);
             return true;
         }
@@ -75,7 +89,12 @@ public class Plataforma {
         }
     } 
 
-    public void cadastrarPublicacao(Usuario usuario, String titulo, String descricao, List<String> tags, String categoria, String anexo) {
+    public void cadastrarPublicacao(String titulo, String conteudo, List<String> tags, String categoria) {
+        Usuario u = usuarioCorrente();
+        Publicacao novaPublicacao = u.adicionarPublicacao(titulo, conteudo, tags, categoria, this);
+        this.publicacoes.add(novaPublicacao);
+        
+        System.err.println("Publicacao adicionada às publicacoes do usuario " + u.getNome());
     }
 
     public void criarChave(int publicacaoID) {

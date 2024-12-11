@@ -1,10 +1,13 @@
 import java.util.List;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Usuario {
     private int id;
     private String nome;
     private String email;
     private String senha;
+    private String estado;
     private List<Publicacao> publicacoes;
 
     public Usuario(Integer id, String nome, String email, String senha, List<Publicacao> publicacoes) {
@@ -12,7 +15,7 @@ public class Usuario {
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
-        this.setPublicacoes(publicacoes);
+        this.publicacoes = new ArrayList<>();
     }
 
     // Getters e Setters
@@ -48,14 +51,18 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public String getEstado() {
+        return this.estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public List<Publicacao> getPublicacoes() {
         return publicacoes;
     }
     
-    public void setPublicacoes(List<Publicacao> publicacoes) {
-        this.publicacoes = publicacoes;
-    }
-
     // Métodos
     public Usuario procuraUsuario(String email, String senha) {
         if (this.email.equals(email)) {
@@ -66,12 +73,19 @@ public class Usuario {
         return null;
     }
 
-    public void adicionarPublicacao(Publicacao publicacao) {
-        publicacoes.add(publicacao);
+    public Publicacao adicionarPublicacao(String titulo, String conteudo, List<String> tags, String categoria, Plataforma plataforma) {
+        Integer size = (this.getPublicacoes() == null) ? 0 : this.getPublicacoes().size();
+        Integer id = this.getId() + size;
+        String hash = "hash";
+
+        Publicacao novaPublicacao = new Publicacao(id, titulo, conteudo, tags, hash, this, plataforma);
+        this.publicacoes.add(novaPublicacao);
+        
+        return novaPublicacao;
     }
 
     public void removerPublicacao(Publicacao publicacao) {
-        publicacoes.remove(publicacao);
+        this.publicacoes.remove(publicacao);
     }
 
     public List<Publicacao> listarPublicacoes() {
