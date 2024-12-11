@@ -1,5 +1,3 @@
-package models;
-
 import java.time.LocalDateTime;
 
 public class Publicacao {
@@ -9,7 +7,7 @@ public class Publicacao {
     private String hash;
     private LocalDateTime dataCriacao;
     private Usuario autor;
-    private String plataforma;
+    private Plataforma plataforma;
 
     // Getters e Setters
     public Long getId() {
@@ -60,7 +58,7 @@ public class Publicacao {
         this.autor = autor;
     }
 
-    public String getPlataforma() {
+    public Plataforma getPlataforma() {
         return plataforma;
     }
 
