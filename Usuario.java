@@ -86,7 +86,7 @@ public class Usuario {
         return null;
     }
 
-    public Publicacao adicionarPublicacao(String titulo, String conteudo, List<String> tags, String categoria, Plataforma plataforma) {
+    public Publicacao adicionarPublicacao(String titulo, String conteudo, List<String> tags, Plataforma plataforma) {
         Integer size = (this.getPublicacoes() == null) ? 0 : this.getPublicacoes().size();
         Integer id = this.getId() + size;
         String hash = "hash";

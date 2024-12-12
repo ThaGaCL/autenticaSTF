@@ -8,7 +8,7 @@ public class Main {
         p.registrar("fulano", "fulano@email.com", "senha1");
         
         p.login("fulano@email.com", "senha1");
-        p.cadastrarPublicacao("titulo", "esta é uma publicacao", null, "categoria");
+        p.cadastrarPublicacao("titulo", "esta é uma publicacao", null);
         p.logout();
         p.login("fulano@email.com", "senha1");
         p.login("fulano@email.com", "senha1");

@@ -135,9 +135,9 @@ public class Plataforma {
         System.out.println("Logout bem-sucedido para: " + u.getEmail());
     }
 
-    public void cadastrarPublicacao(String titulo, String conteudo, List<String> tags, String categoria) {
+    public void cadastrarPublicacao(String titulo, String conteudo, List<String> tags) {
         Usuario u = usuarioCorrente();
-        Publicacao novaPublicacao = u.adicionarPublicacao(titulo, conteudo, tags, categoria, this);
+        Publicacao novaPublicacao = u.adicionarPublicacao(titulo, conteudo, tags, this);
         this.publicacoes.add(novaPublicacao);
         
         System.out.println("Publicacao adicionada às publicacoes do usuario " + u.getNome());
