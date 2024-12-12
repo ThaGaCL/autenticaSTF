@@ -2,7 +2,6 @@ public class OcorrenciaDeCopia {
 
     private Publicacao publicacaoOriginal;
     private Publicacao publicacaoCopia;
-    private String descricao;
 
     // Construtor padrão
     public OcorrenciaDeCopia() {}
@@ -11,7 +10,6 @@ public class OcorrenciaDeCopia {
     public OcorrenciaDeCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao) {
         this.setPublicacaoOriginal(publicacaoOriginal);
         this.setPublicacaoCopia(publicacaoCopia);
-        this.setDescricao(descricao);
     }
 
     // Getters e Setters
@@ -29,14 +27,6 @@ public class OcorrenciaDeCopia {
 
     public void setPublicacaoCopia(Publicacao publicacaoCopia) {
         this.publicacaoCopia = publicacaoCopia;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     // Métodos
@@ -57,7 +47,6 @@ public class OcorrenciaDeCopia {
         // Definindo os atributos da classe
         this.publicacaoOriginal = publicacaoOriginal;
         this.publicacaoCopia = publicacaoCopia;
-        this.descricao = descricao;
 
         // Aqui você pode adicionar qualquer lógica adicional, como salvar em um banco de dados ou registrar em uma lista
         System.out.println("Cópia registrada: " + descricao);
