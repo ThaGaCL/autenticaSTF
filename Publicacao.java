@@ -136,6 +136,21 @@ public class Publicacao {
     }
 
     // Métodos
+    public Publicacao achouPublicacao(Integer publicacaoID, Usuario usuario) {
+        if (this.getId() == publicacaoID && this.getAutor() == usuario) {
+            return this;
+        }
+        return null;
+    }
+    
+    public Publicacao achouCopia(Publicacao publicacao, Usuario usuario) {
+        if (this.getConteudo().equals(publicacao.getConteudo()) && 
+            this.getAutor() != usuario) {
+            return this;
+        }
+        return null;
+    }
+
     public void adicionarHistorico(Historico historico) {
         this.historicos.add(historico);
     }
@@ -154,21 +169,12 @@ public class Publicacao {
         
         this.adicionarHistorico(novoHistorico);
         copia.adicionarHistorico(novoHistorico);
+
+        this.notificarCopia(this, copia);
     }
 
-    public Publicacao achouPublicacao(Integer publicacaoID, Usuario usuario) {
-        if (this.getId() == publicacaoID && this.getAutor() == usuario) {
-            return this;
-        }
-        return null;
-    }
-    
-    public Publicacao achouCopia(Publicacao publicacao, Usuario usuario) {
-        if (this.getConteudo().equals(publicacao.getConteudo()) && 
-            this.getAutor() != usuario) {
-            return this;
-        }
-        return null;
+    public void notificarCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia) {
+        this.plataforma.notificar(publicacaoOriginal, publicacaoCopia);
     }
 
     @Override

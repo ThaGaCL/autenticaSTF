@@ -111,13 +111,13 @@ public class Plataforma {
         Usuario u = procuraUsuario(email, senha);
 
         if (u != null) {
-            System.out.println("Falha ao registrar " + nome + ", usuario já existe");
+            exibeNaTela("Falha ao registrar " + nome + ", usuario já existe");
             return false;
         }
 
         this.usuarios.add(new Usuario(this.proximoId++, nome, email, senha, null));
 
-        System.out.println("Registro bem-sucedido para: " + nome);
+        exibeNaTela("Registro bem-sucedido para: " + nome);
         return true;
     }
 
@@ -125,17 +125,17 @@ public class Plataforma {
         Usuario u = procuraUsuario(email, senha);
 
         if (u == null) {
-            System.out.println("Falha no login: usuario ou senha não encontrado");
+            exibeNaTela("Falha no login: usuario ou senha não encontrado");
             return false;
         }
 
         String token = gerarToken();
         if (!adicionarSessao(u, u.getId(), token)) {
-            System.out.println("Falha no login: já existe uma sessão ativa");
+            exibeNaTela("Falha no login: já existe uma sessão ativa");
             return false;
         }
 
-        System.out.println("Login bem-sucedido para: " + email);
+        exibeNaTela("Login bem-sucedido para: " + email);
         return true;
     } 
 
@@ -143,7 +143,7 @@ public class Plataforma {
         Usuario usuarioCorrente = usuarioCorrente();
         removerSessao(usuarioCorrente);
 
-        System.out.println("Logout bem-sucedido para: " + usuarioCorrente.getEmail());
+        exibeNaTela("Logout bem-sucedido para: " + usuarioCorrente.getEmail());
     }
 
     public void cadastrarPublicacao(String titulo, String conteudo, List<String> tags) {
@@ -151,7 +151,7 @@ public class Plataforma {
         Publicacao novaPublicacao = u.adicionarPublicacao(titulo, conteudo, tags, this);
         this.publicacoes.add(novaPublicacao);
         
-        System.out.println("Publicacao adicionada às publicacoes do usuario " + u.getNome());
+        exibeNaTela("Publicacao adicionada às publicacoes do usuario " + u.getNome());
     }
 
     public boolean criarChave(int publicacaoID) {
@@ -159,17 +159,17 @@ public class Plataforma {
         Publicacao p = usuarioCorrente.procurarPublicacao(publicacaoID);
 
         if (p == null) {
-            System.out.println("Falha ao criar chave: não foi possivel encontrar publicacao");
+            exibeNaTela("Falha ao criar chave: não foi possivel encontrar publicacao");
             return false;
         }
 
         if (p.getChave() != null) {
-            System.out.println("A publicacao já tem uma chave");
+            exibeNaTela("A publicacao já tem uma chave");
         }
         
         p.adicionarChave(usuarioCorrente.getId());
 
-        System.out.println("Chave criada com sucesso");
+        exibeNaTela("Chave criada com sucesso");
         return true;
     }
 
@@ -178,28 +178,34 @@ public class Plataforma {
         Publicacao p = usuarioCorrente.procurarPublicacao(publicacaoID);
 
         if (p == null) {
-            System.out.println("Falha ao verificar cópia: não foi possivel encontrar publicacao");
+            exibeNaTela("Falha ao verificar cópia: não foi possivel encontrar publicacao");
             return false;
         }
 
         if (p.getChave() == null) {
-            System.out.println("Falha ao verificar cópia: publicacao não tem uma chave registrada");
+            exibeNaTela("Falha ao verificar cópia: publicacao não tem uma chave registrada");
             return false;
         }
         
         Publicacao copia = procurarCopia(p, usuarioCorrente);
         
         if (copia == null) {
-            System.out.println("Nenhuma cópia encontrada");
+            exibeNaTela("Nenhuma cópia encontrada");
             return false;
         }
         
         p.registrarOcorrenciaCopia(copia);
         
-        System.out.println("Uma cópia foi encontrada e registrada");
+        exibeNaTela("Uma cópia foi encontrada e registrada");
         return true;
     }
 
-    public void notificarCopia(int publicacaoID, int copiaID) {
+    public void notificar(Publicacao publicacaoOriginal, Publicacao publicacaoCopia) {
+        Notificacao notificacao = new Notificacao(publicacaoOriginal, publicacaoCopia, publicacaoOriginal.getAutor());
+        exibeNaTela(notificacao);
+    }
+
+    public void exibeNaTela(Object info) {
+        System.out.println(info);
     }
 }

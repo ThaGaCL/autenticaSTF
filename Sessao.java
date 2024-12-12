@@ -44,10 +44,4 @@ public class Sessao {
     }
 
     // Métodos
-    public void infosSessao() {
-        System.out.println("Sessao " + this.id + ":");
-        System.out.println("token: " + this.token);
-        System.out.println("usuario:");
-        System.out.println(this.usuario.toString());
-    }
 }

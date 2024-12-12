@@ -11,7 +11,7 @@ public class Notificacao {
     public Notificacao(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, Usuario autor) {
         this.setPublicacaoOriginal(publicacaoOriginal);
         this.setPublicacaoCopia(publicacaoCopia);
-        this.setAuthor(autor);
+        this.setAutor(autor);
     }
 
     // Getters e Setters
@@ -35,26 +35,17 @@ public class Notificacao {
         return autor;
     }
 
-    public void setAuthor(Usuario autor) {
+    public void setAutor(Usuario autor) {
         this.autor = autor;
     }
 
     // Métodos
-    public void notificarCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao, Usuario usuario) {
-        if (publicacaoOriginal == null) {
-            throw new IllegalArgumentException("A publicação original não pode ser nula.");
-        }
-
-        if (publicacaoCopia == null) {
-            throw new IllegalArgumentException("A cópia da publicação não pode ser nula.");
-        }
-
-        if (usuario == null) {
-            throw new IllegalArgumentException("O usuário não pode ser nulo.");
-        }
-
-        new Notificacao(publicacaoOriginal, publicacaoCopia, autor);
-       
-        System.out.println("Notificação enviada: " + descricao);
+    @Override
+    public String toString() {
+        return 
+        "== NOTIFICAÇÃO ====================================\n" +
+        " Atenção usuário " + this.getAutor().getNome() + "\n" +
+        " Foi encontrada uma cópia da publicação '" + this.getPublicacaoOriginal().getTitulo() + "'\n" +
+        "===================================================\n";
     }
 }
