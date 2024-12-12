@@ -1,22 +1,23 @@
 public class Chave {
-    private Long id;
+    
+    private Integer id;
     private Publicacao publicacao;
 
     // Construtor padrão
-    public Chave() {
-    }
+    public Chave() {}
     
     // Construtor com argumentos
-    public Chave(Publicacao publicacao) {
-        this.publicacao = publicacao;
+    public Chave(Integer id, Publicacao publicacao) {
+        this.setId(id);
+        this.setPublicacao(publicacao);
     }
     
     // Getters e Setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -28,12 +29,5 @@ public class Chave {
         this.publicacao = publicacao;
     }
 
-    // Outros métodos
-    public void criarChave(Publicacao publicacao){
-        if (publicacao == null) {
-            throw new IllegalArgumentException("A publicação não pode ser nula.");
-        }
-        
-        new Chave(publicacao);
-    }
+    // Métodos
 }

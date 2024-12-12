@@ -2,17 +2,16 @@ public class Notificacao {
 
     private Publicacao publicacaoOriginal;
     private Publicacao publicacaoCopia;
-    private Usuario author;
+    private Usuario autor;
 
     // Construtor padrão
-    public Notificacao() {
-    }
+    public Notificacao() {}
 
     // Construtor com argumentos
-    public Notificacao(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, Usuario author) {
-        this.publicacaoOriginal = publicacaoOriginal;
-        this.publicacaoCopia = publicacaoCopia;
-        this.author = author;
+    public Notificacao(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, Usuario autor) {
+        this.setPublicacaoOriginal(publicacaoOriginal);
+        this.setPublicacaoCopia(publicacaoCopia);
+        this.setAuthor(autor);
     }
 
     // Getters e Setters
@@ -32,15 +31,15 @@ public class Notificacao {
         this.publicacaoCopia = publicacaoCopia;
     }
 
-    public Usuario getAuthor() {
-        return author;
+    public Usuario getAutor() {
+        return autor;
     }
 
-    public void setAuthor(Usuario author) {
-        this.author = author;
+    public void setAuthor(Usuario autor) {
+        this.autor = autor;
     }
 
-    // Outros métodos
+    // Métodos
     public void notificarCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao, Usuario usuario) {
         if (publicacaoOriginal == null) {
             throw new IllegalArgumentException("A publicação original não pode ser nula.");
@@ -54,7 +53,7 @@ public class Notificacao {
             throw new IllegalArgumentException("O usuário não pode ser nulo.");
         }
 
-        new Notificacao(publicacaoOriginal, publicacaoCopia, author);
+        new Notificacao(publicacaoOriginal, publicacaoCopia, autor);
        
         System.out.println("Notificação enviada: " + descricao);
     }

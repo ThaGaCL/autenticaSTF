@@ -3,6 +3,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Publicacao {
+
     private Integer id;
     private String titulo;
     private String conteudo;
@@ -12,7 +13,13 @@ public class Publicacao {
     private List<String> tags;
     private List<Historico> historicos;
     private Plataforma plataforma;
+    private Chave chave;
+    private String estado;
 
+    // Construtor padrão
+    public Publicacao() {}
+
+    // Construtor com parâmetros
     public Publicacao(Integer id, String titulo, String conteudo, List<String> tags, String hash, Usuario autor, Plataforma plataforma) {
         this.setId(id);
         this.setTitulo(titulo);
@@ -21,12 +28,14 @@ public class Publicacao {
         this.setAutor(autor);
         this.setPlataforma(plataforma);
         this.setTags(tags);
-        this.setDataCriacao(dataCriacao);
+        this.setDataCriacao(LocalDateTime.now());
 
         // adicionando histórico de criação da publicacao
-        this.historicos = new ArrayList<>();
-        Historico historico = new Historico(this, "adicionada publicacao", LocalDateTime.now(), autor);
-        this.adicionarHistorico(historico);
+        this.setHistoricos(null);
+        this.adicionarHistorico(new Historico(this, "adicionada publicacao", autor));
+        
+        this.setChave(null);
+        this.setEstado("sem chave");
     }
 
     // Getters e Setters
@@ -61,8 +70,7 @@ public class Publicacao {
     public void setTags(List<String> tags) {
         if (tags == null) {
             this.tags = new ArrayList<>();
-        }
-        else {
+        } else {
             this.tags = tags;
         }
     }
@@ -99,10 +107,55 @@ public class Publicacao {
         this.plataforma = plataforma;
     }
 
+    public Chave getChave() {
+        return this.chave;
+    }
+
+    public void setChave(Chave chave) {
+        this.chave = chave;
+    }
+
+    public String getEstado() {
+        return this.estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public List<Historico> getHistoricos() {
+        return this.historicos;
+    }
+    
+    public void setHistoricos(List<Historico> historicos) {
+        if (historicos == null) {
+            this.historicos = new ArrayList<>();;
+        } else {
+            this.historicos = historicos;
+        }
+    }
+
     // Métodos
     public void adicionarHistorico(Historico historico) {
         this.historicos.add(historico);
     }
 
+    public void adicionarChave(Integer id) {
+        Chave novaChave = new Chave(id, this);
+        this.setChave(novaChave);
+        this.setEstado("chave gerada");
+    }
 
+    @Override
+    public String toString() {
+        return "Publicacao " + this.getId() + "\n" +
+               "  titulo: " + this.getTitulo() + "\n" +
+               "  conteudo: " + this.getConteudo() + "\n" +
+               "  hash: " + this.getHash() + "\n" +
+               "  data: " + this.getDataCriacao() + "\n" +
+               "  autor: " + this.getAutor() + "\n" +
+               "  tags: " + this.getTags() + "\n" +
+               "  estado: " + this.getEstado() + "\n" +
+               "  historicos: " + this.getHistoricos();
+    }
 }

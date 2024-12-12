@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 
 public class Historico {
+    
     private Publicacao publicacao;
     private String acao;
     private LocalDateTime data;
@@ -10,11 +11,11 @@ public class Historico {
     public Historico() {}
 
     // Construtor com argumentos
-    public Historico(Publicacao publicacao, String acao, LocalDateTime data, Usuario usuario) {
-        this.publicacao = publicacao;
-        this.acao = acao;
-        this.data = data;
-        this.usuario = usuario;
+    public Historico(Publicacao publicacao, String acao, Usuario usuario) {
+        this.setPublicacao(publicacao);
+        this.setAcao(acao);
+        this.setData(LocalDateTime.now());
+        this.setUsuario(usuario);
     }
 
     // Getters e Setters
@@ -51,4 +52,8 @@ public class Historico {
     }
 
     // Métodos
+    @Override
+    public String toString() {
+        return this.getAcao() + ", ";
+    }
 }

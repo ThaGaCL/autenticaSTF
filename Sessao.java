@@ -1,14 +1,20 @@
 public class Sessao {
+
     private Usuario usuario;
     private Integer id;
     private String token;
 
+    // Construtor Padrão
+    public Sessao() {}
+    
+    // Construtor com parâmetros
     public Sessao(Usuario usuario, Integer id, String token) {
         this.usuario = usuario;
         this.id = id;
         this.token = token;
     }
 
+    // Getters e Setters
     public Usuario getUsuario() {
         return this.usuario;
     }
@@ -33,6 +39,7 @@ public class Sessao {
         this.token = token;
     }
 
+    // Métodos
     public void infosSessao() {
         System.out.println("Sessao " + this.id + ":");
         System.out.println("token: " + this.token);

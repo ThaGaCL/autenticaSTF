@@ -5,14 +5,13 @@ public class OcorrenciaDeCopia {
     private String descricao;
 
     // Construtor padrão
-    public OcorrenciaDeCopia() {
-    }
+    public OcorrenciaDeCopia() {}
 
     // Construtor com parâmetros
     public OcorrenciaDeCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao) {
-        this.publicacaoOriginal = publicacaoOriginal;
-        this.publicacaoCopia = publicacaoCopia;
-        this.descricao = descricao;
+        this.setPublicacaoOriginal(publicacaoOriginal);
+        this.setPublicacaoCopia(publicacaoCopia);
+        this.setDescricao(descricao);
     }
 
     // Getters e Setters
@@ -40,8 +39,7 @@ public class OcorrenciaDeCopia {
         this.descricao = descricao;
     }
 
-    // Outros métodos
-
+    // Métodos
     // Registrar uma cópia
     public void registrarCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao, Usuario usuario) {
         if (publicacaoOriginal == null) {

@@ -1,8 +1,8 @@
 import java.util.List;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Usuario {
+
     private int id;
     private String nome;
     private String email;
@@ -10,12 +10,17 @@ public class Usuario {
     private String estado;
     private List<Publicacao> publicacoes;
 
+    // Construtor padrão
+    public Usuario() {}
+
+    // Construtor com parâmetros
     public Usuario(Integer id, String nome, String email, String senha, List<Publicacao> publicacoes) {
         this.setId(id);
         this.setNome(nome);
         this.setEmail(email);
         this.setSenha(senha);
-        this.publicacoes = new ArrayList<>();
+        this.setPublicacoes(publicacoes);
+        this.setEstado("nao autenticado");
     }
 
     // Getters e Setters
@@ -62,6 +67,14 @@ public class Usuario {
     public List<Publicacao> getPublicacoes() {
         return publicacoes;
     }
+
+    public void setPublicacoes(List<Publicacao> publicacoes) {
+        if (publicacoes == null) {
+            this.publicacoes = new ArrayList<>();
+        } else {
+            this.publicacoes = publicacoes;
+        }
+    }
     
     // Métodos
     public Usuario procuraUsuario(String email, String senha) {
@@ -94,10 +107,10 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "  userId: " + this.id + "\n" +
-               "  nome: " + this.nome + "\n" +
-               "  email: " + this.email + "\n" +
-               "  senha: " + this.senha;
+        return "  \n" +
+               "   userId: " + this.id + "\n" +
+               "   nome: " + this.nome + "\n" +
+               "   email: " + this.email + "\n" +
+               "   senha: " + this.senha;
     }
-
 }
