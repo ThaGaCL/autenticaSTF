@@ -77,7 +77,7 @@ public class Usuario {
     }
     
     // Métodos
-    public Usuario procuraUsuario(String email, String senha) {
+    public Usuario achouUsuario(String email, String senha) {
         if (this.email.equals(email)) {
             if (this.senha.equals(senha)) {
                 return this;
@@ -103,6 +103,17 @@ public class Usuario {
 
     public List<Publicacao> listarPublicacoes() {
         return publicacoes;
+    }
+
+    public Publicacao procurarPublicacao(Integer publicacaoID) {
+        Publicacao p = null;
+        for (Publicacao publicacao : this.getPublicacoes()) {
+            p = publicacao.achouPublicacao(publicacaoID, this);
+            if (p != null) {
+                break;
+            }
+        }
+        return p;
     }
 
     @Override

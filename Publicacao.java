@@ -40,7 +40,7 @@ public class Publicacao {
 
     // Getters e Setters
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Integer id) {
@@ -150,10 +150,25 @@ public class Publicacao {
         String descricao = "publicacao id " + copia.getId() + " é cópia de publicacao com id " + this.getId();
         OcorrenciaDeCopia novaOcorrencia = new OcorrenciaDeCopia(this, copia,  descricao);
         
-        Historico novoHistorico = new Historico(this, novaOcorrencia, this.getAutor()); 
+        Historico novoHistorico = new Historico(this, novaOcorrencia.getDescricao(), this.getAutor()); 
         
         this.adicionarHistorico(novoHistorico);
         copia.adicionarHistorico(novoHistorico);
+    }
+
+    public Publicacao achouPublicacao(Integer publicacaoID, Usuario usuario) {
+        if (this.getId() == publicacaoID && this.getAutor() == usuario) {
+            return this;
+        }
+        return null;
+    }
+    
+    public Publicacao achouCopia(Publicacao publicacao, Usuario usuario) {
+        if (this.getConteudo().equals(publicacao.getConteudo()) && 
+            this.getAutor() != usuario) {
+            return this;
+        }
+        return null;
     }
 
     @Override

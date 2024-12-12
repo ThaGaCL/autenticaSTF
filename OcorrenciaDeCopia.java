@@ -2,6 +2,7 @@ public class OcorrenciaDeCopia {
 
     private Publicacao publicacaoOriginal;
     private Publicacao publicacaoCopia;
+    private String descricao;
 
     // Construtor padrão
     public OcorrenciaDeCopia() {}
@@ -10,6 +11,7 @@ public class OcorrenciaDeCopia {
     public OcorrenciaDeCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao) {
         this.setPublicacaoOriginal(publicacaoOriginal);
         this.setPublicacaoCopia(publicacaoCopia);
+        this.setDescricao(descricao);
     }
 
     // Getters e Setters
@@ -27,6 +29,14 @@ public class OcorrenciaDeCopia {
 
     public void setPublicacaoCopia(Publicacao publicacaoCopia) {
         this.publicacaoCopia = publicacaoCopia;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     // Métodos

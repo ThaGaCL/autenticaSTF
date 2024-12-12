@@ -39,6 +39,10 @@ public class Sessao {
         this.token = token;
     }
 
+    public Usuario usuarioCorrente() {
+        return this.getUsuario();
+    }
+
     // Métodos
     public void infosSessao() {
         System.out.println("Sessao " + this.id + ":");

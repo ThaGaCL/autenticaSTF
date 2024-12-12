@@ -59,28 +59,28 @@ public class Plataforma {
     }
 
     // Métodos
-    private Publicacao procurarPublicacao(Integer publicacaoID, Usuario usuario) {
-        Publicacao p = null;
-        for (Publicacao publicacao : usuario.getPublicacoes()) {
-            if (publicacao.getId() == publicacaoID) {
-                p = publicacao;
-            }
-        }
-        return p;
-    }
-
     private Publicacao procurarCopia(Publicacao p, Usuario u) {
         Publicacao copia = null;
-        for (Publicacao publicacao : this.publicacoes) {
-            if (publicacao.getConteudo().equals(p.getConteudo()) && 
-                publicacao.getAutor() != u) {
-                copia = publicacao;
+        for (Publicacao publicacao : this.getPublicacoes()) {
+            copia = publicacao.achouCopia(publicacao, u);
+            if (copia != null) {
                 break;
             }
         }
         return copia;
     }
-    
+
+    private Usuario procuraUsuario(String email, String senha) {
+        Usuario u = null;
+        for (Usuario usuario : usuarios) {
+            u = usuario.achouUsuario(email, senha);
+            if (u != null) {
+                break;
+            }
+        }
+        return u;
+    }
+
     private String gerarToken() {
         return UUID.randomUUID()
                    .toString()
@@ -104,17 +104,11 @@ public class Plataforma {
     }
 
     private Usuario usuarioCorrente() {
-        return this.getSessao().getUsuario();
+        return this.getSessao().usuarioCorrente();
     }
 
     public boolean registrar(String nome, String email, String senha) {
-        Usuario u = null;
-        for (Usuario usuario : usuarios) {
-            u = usuario.procuraUsuario(email, senha);
-            if (u != null) {
-                break;
-            }
-        }
+        Usuario u = procuraUsuario(email, senha);
 
         if (u != null) {
             System.out.println("Falha ao registrar " + nome + ", usuario já existe");
@@ -128,13 +122,7 @@ public class Plataforma {
     }
 
     public boolean login(String email, String senha) {
-        Usuario u = null;
-        for (Usuario usuario : usuarios) {
-            u = usuario.procuraUsuario(email, senha);
-            if (u != null) {
-                break;
-            } 
-        }
+        Usuario u = procuraUsuario(email, senha);
 
         if (u == null) {
             System.out.println("Falha no login: usuario ou senha não encontrado");
@@ -152,9 +140,10 @@ public class Plataforma {
     } 
 
     public void logout() {
-        Usuario u = usuarioCorrente();
-        removerSessao(u);
-        System.out.println("Logout bem-sucedido para: " + u.getEmail());
+        Usuario usuarioCorrente = usuarioCorrente();
+        removerSessao(usuarioCorrente);
+
+        System.out.println("Logout bem-sucedido para: " + usuarioCorrente.getEmail());
     }
 
     public void cadastrarPublicacao(String titulo, String conteudo, List<String> tags) {
@@ -166,29 +155,39 @@ public class Plataforma {
     }
 
     public boolean criarChave(int publicacaoID) {
-        Usuario u = usuarioCorrente();
-        Publicacao p = procurarPublicacao(publicacaoID, u);
+        Usuario usuarioCorrente = usuarioCorrente();
+        Publicacao p = usuarioCorrente.procurarPublicacao(publicacaoID);
 
         if (p == null) {
             System.out.println("Falha ao criar chave: não foi possivel encontrar publicacao");
             return false;
         }
+
+        if (p.getChave() != null) {
+            System.out.println("A publicacao já tem uma chave");
+        }
         
-        p.adicionarChave(u.getId());
+        p.adicionarChave(usuarioCorrente.getId());
+
         System.out.println("Chave criada com sucesso");
         return true;
     }
 
     public boolean verificarCopia(int publicacaoID) {
-        Usuario u = usuarioCorrente();
-        Publicacao p = procurarPublicacao(publicacaoID, u);
+        Usuario usuarioCorrente = usuarioCorrente();
+        Publicacao p = usuarioCorrente.procurarPublicacao(publicacaoID);
 
         if (p == null) {
-            System.out.println("Falha ao criar chave: não foi possivel encontrar publicacao");
+            System.out.println("Falha ao verificar cópia: não foi possivel encontrar publicacao");
+            return false;
+        }
+
+        if (p.getChave() == null) {
+            System.out.println("Falha ao verificar cópia: publicacao não tem uma chave registrada");
             return false;
         }
         
-        Publicacao copia = procurarCopia(p, u);
+        Publicacao copia = procurarCopia(p, usuarioCorrente);
         
         if (copia == null) {
             System.out.println("Nenhuma cópia encontrada");
@@ -196,6 +195,7 @@ public class Plataforma {
         }
         
         p.registrarOcorrenciaCopia(copia);
+        
         System.out.println("Uma cópia foi encontrada e registrada");
         return true;
     }
