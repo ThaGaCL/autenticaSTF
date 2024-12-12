@@ -146,6 +146,16 @@ public class Publicacao {
         this.setEstado("chave gerada");
     }
 
+    public void registrarOcorrenciaCopia(Publicacao copia) {
+        String descricao = "publicacao id " + copia.getId() + " é cópia de publicacao com id " + this.getId();
+        OcorrenciaDeCopia novaOcorrencia = new OcorrenciaDeCopia(this, copia,  descricao);
+        
+        Historico novoHistorico = new Historico(this, novaOcorrencia, this.getAutor()); 
+        
+        this.adicionarHistorico(novoHistorico);
+        copia.adicionarHistorico(novoHistorico);
+    }
+
     @Override
     public String toString() {
         return "Publicacao " + this.getId() + "\n" +

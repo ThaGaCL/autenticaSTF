@@ -59,6 +59,28 @@ public class Plataforma {
     }
 
     // Métodos
+    private Publicacao procurarPublicacao(Integer publicacaoID, Usuario usuario) {
+        Publicacao p = null;
+        for (Publicacao publicacao : usuario.getPublicacoes()) {
+            if (publicacao.getId() == publicacaoID) {
+                p = publicacao;
+            }
+        }
+        return p;
+    }
+
+    private Publicacao procurarCopia(Publicacao p, Usuario u) {
+        Publicacao copia = null;
+        for (Publicacao publicacao : this.publicacoes) {
+            if (publicacao.getConteudo().equals(p.getConteudo()) && 
+                publicacao.getAutor() != u) {
+                copia = publicacao;
+                break;
+            }
+        }
+        return copia;
+    }
+    
     private String gerarToken() {
         return UUID.randomUUID()
                    .toString()
@@ -144,25 +166,38 @@ public class Plataforma {
     }
 
     public boolean criarChave(int publicacaoID) {
-        Publicacao p = null;
-        List<Publicacao> publicacoes = usuarioCorrente().getPublicacoes();
-        for (Publicacao publicacao : publicacoes) {
-            if (publicacao.getId() == publicacaoID) {
-                p = publicacao;
-            }
-        }
+        Usuario u = usuarioCorrente();
+        Publicacao p = procurarPublicacao(publicacaoID, u);
 
         if (p == null) {
             System.out.println("Falha ao criar chave: não foi possivel encontrar publicacao");
             return false;
         }
         
-        p.adicionarChave(usuarioCorrente().getId());
+        p.adicionarChave(u.getId());
         System.out.println("Chave criada com sucesso");
         return true;
     }
 
-    public void verificarCopia(int publicacaoID) {
+    public boolean verificarCopia(int publicacaoID) {
+        Usuario u = usuarioCorrente();
+        Publicacao p = procurarPublicacao(publicacaoID, u);
+
+        if (p == null) {
+            System.out.println("Falha ao criar chave: não foi possivel encontrar publicacao");
+            return false;
+        }
+        
+        Publicacao copia = procurarCopia(p, u);
+        
+        if (copia == null) {
+            System.out.println("Nenhuma cópia encontrada");
+            return false;
+        }
+        
+        p.registrarOcorrenciaCopia(copia);
+        System.out.println("Uma cópia foi encontrada e registrada");
+        return true;
     }
 
     public void notificarCopia(int publicacaoID, int copiaID) {

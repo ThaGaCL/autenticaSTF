@@ -30,47 +30,4 @@ public class OcorrenciaDeCopia {
     }
 
     // Métodos
-    // Registrar uma cópia
-    public void registrarCopia(Publicacao publicacaoOriginal, Publicacao publicacaoCopia, String descricao, Usuario usuario) {
-        if (publicacaoOriginal == null) {
-            throw new IllegalArgumentException("A publicação original não pode ser nula.");
-        }
-
-        if (publicacaoCopia == null) {
-            throw new IllegalArgumentException("A cópia da publicação não pode ser nula.");
-        }
-
-        if (descricao == null || descricao.isEmpty()) {
-            throw new IllegalArgumentException("A descrição não pode ser nula ou vazia.");
-        }
-
-        // Definindo os atributos da classe
-        this.publicacaoOriginal = publicacaoOriginal;
-        this.publicacaoCopia = publicacaoCopia;
-
-        // Aqui você pode adicionar qualquer lógica adicional, como salvar em um banco de dados ou registrar em uma lista
-        System.out.println("Cópia registrada: " + descricao);
-    }
-
-    // Verificar se existe uma cópia de uma publicação
-    public Boolean existeCopia(Publicacao publicacaoOriginal) {
-        if (publicacaoOriginal == null) {
-            throw new IllegalArgumentException("A publicação original não pode ser nula.");
-        }
-
-        // Lógica para verificar se existe uma cópia da publicação
-        return this.publicacaoOriginal.equals(publicacaoOriginal) && this.publicacaoCopia != null;
-    }
-
-    // Obter a cópia de uma publicação
-    public Publicacao getCopia(Publicacao publicacaoOriginal) {
-        if (publicacaoOriginal == null) {
-            throw new IllegalArgumentException("A publicação original não pode ser nula.");
-        }
-
-        if (this.publicacaoOriginal.equals(publicacaoOriginal)) {
-            return this.publicacaoCopia;
-        }
-        return null;
-    }
 }

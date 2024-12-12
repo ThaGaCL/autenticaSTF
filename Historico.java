@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 public class Historico {
     
     private Publicacao publicacao;
-    private String acao;
+    private Object acao;
     private LocalDateTime data;
     private Usuario usuario;
 
@@ -11,7 +11,7 @@ public class Historico {
     public Historico() {}
 
     // Construtor com argumentos
-    public Historico(Publicacao publicacao, String acao, Usuario usuario) {
+    public Historico(Publicacao publicacao, Object acao, Usuario usuario) {
         this.setPublicacao(publicacao);
         this.setAcao(acao);
         this.setData(LocalDateTime.now());
@@ -27,11 +27,11 @@ public class Historico {
         this.publicacao = publicacao;
     }
 
-    public String getAcao() {
+    public Object getAcao() {
         return acao;
     }
 
-    public void setAcao(String acao) {
+    public void setAcao(Object acao) {
         this.acao = acao;
     }
 
